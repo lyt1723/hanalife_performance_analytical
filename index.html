@@ -669,12 +669,19 @@
         detailArea.style.display = 'block';
     }
 
-    function calculateAchievement() {
+function calculateAchievement() {
         const targetT = parseFloat(document.getElementById('targetTotal').value) || 0;
         const targetH = parseFloat(document.getElementById('targetHealth').value) || 0;
 
-        const resT = targetT > 0 ? ((totalMcpGlobal / targetT) * 100).toFixed(1) : 0;
-        const resH = targetH > 0 ? ((currentHealthTotal / targetH) * 100).toFixed(1) : 0;
+        const getTruncatedValue = (current, target) => {
+            if (target <= 0) return "0.0";
+            const pct = (current / target) * 100;
+            const str = pct.toFixed(4);
+            return str.substring(0, str.indexOf('.') + 2);
+        };
+
+        const resT = getTruncatedValue(totalMcpGlobal, targetT);
+        const resH = getTruncatedValue(currentHealthTotal, targetH);
 
         document.getElementById('resTotal').innerHTML = `
             <div style="font-size: 14px; color: #4B5563;">Total 달성률</div>
